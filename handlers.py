@@ -43,7 +43,7 @@ async def help_command(message: types.Message):
 async def add_command(message: types.Message):
     await message.answer('Введи буквенно-цифровой артикул латинскими буквами')
     await message.delete()
-    # await message.answer('Запись добавлена в базу данных!')
+    await message.answer('Запись добавлена в базу данных!')
 
 
 
