@@ -1,7 +1,7 @@
 from aiogram import types
 
-from main import dp
-from sql import db_start, add_det
+from main import dp, bot
+from sql import db_start
 
 HELP_COMMAND = """
 <b>/start</b> - <em>начало работы с ботом</em>
@@ -21,7 +21,7 @@ async def on_startup(_):
 @dp.message_handler(commands=['start'])
 async def start_command(message: types.Message):
     await message.reply(
-        f'{message.from_user.first_name}, добро пожаловать в бот по поиску остатков\nДля помощи нажми > /help')
+        f'Привет, <b>{message.from_user.first_name}</b>! Добро пожаловать в бот по поиску остатков\nДля помощи нажми > /help', parse_mode='HTML')
     # await db_start()
     # await create_profile(user_id=message.from_user.id)
     # await message.delete()
@@ -35,14 +35,19 @@ async def desc_command(message: types.Message):
 
 @dp.message_handler(commands=['help'])
 async def help_command(message: types.Message):
-    await message.reply(text=HELP_COMMAND,
+    await message.reply(HELP_COMMAND,
                         parse_mode='HTML')
 
 
 @dp.message_handler(commands=['add'])
 async def add_command(message: types.Message):
     await message.answer('Введи буквенно-цифровой артикул латинскими буквами')
-    await message.delete()
+    # await bot.send_message("Введи буквенно-цифровой артикул латинскими буквами")
+    # await message.delete()
+
+    message.text.lower == ()
+    await bot.send_message(message.chat.id, message.text)
+
     await message.answer('Запись добавлена в базу данных!')
 
 
