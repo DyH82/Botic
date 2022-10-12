@@ -1,7 +1,7 @@
 from aiogram import types
 
 from main import dp, bot
-from sql import db_start
+from sql import db_start, add_det
 
 HELP_COMMAND = """
 <b>/start</b> - <em>начало работы с ботом</em>
@@ -43,13 +43,13 @@ async def help_command(message: types.Message):
 async def add_command(message: types.Message):
     await message.answer('Введи буквенно-цифровой артикул латинскими буквами')
     # await bot.send_message("Введи буквенно-цифровой артикул латинскими буквами")
-    # await message.delete()
 
-    message.text.lower == ()
+    await add_det(detail_size=message.text, user_id=message.from_user.id, username=message.from_user.username)
+    # message.text.lower == ()
     await bot.send_message(message.chat.id, message.text)
 
     await message.answer('Запись добавлена в базу данных!')
-
+    await message.delete()
 
 
 @dp.message_handler(commands=['search'])

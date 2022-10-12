@@ -4,18 +4,20 @@ import sqlite3
 async def db_start():
     db = sqlite3.connect('materials.db')
     cur = db.cursor()
-    cur.execute("""CREATE TABLE IF NOT EXISTS 'user_data'('user_id' INT, 'username' TEXT, 'detail_size' TEXT)""")
+    cur.execute("""CREATE TABLE IF NOT EXISTS user_data(detail_size TEXT, user_id INT, username TEXT)""")
     db.commit()
 
 
-async def add_det(it, user_id, username):
-
+async def add_det(detail_size, user_id, username):
+    # it = []
+    # user_id = []
+    # username = []
     db_u = sqlite3.connect('materials.db')
     cur = db_u.cursor()
-    a = []
-    a.append(it)
-    cur.execute("""INSERT INTO user_data(detail_size, user_id, username) VALUES(?,?,?)""",
-                (user_id, username, a))
+
+    # it.append(it)
+    cur.execute("""INSERT INTO user_data(detail_size, user_id, username) VALUES(?,?,?);""",
+                (detail_size, user_id, username,))
     db_u.commit()
     cur.close()
 
