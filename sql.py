@@ -17,7 +17,7 @@ async def add_det(detail_size, user_id, username):
 
     # it.append(it)
     cur.execute("""INSERT INTO user_data(detail_size, user_id, username) VALUES(?,?,?);""",
-                (detail_size, user_id, username,))
+                (detail_size, user_id, username))
     db_u.commit()
     cur.close()
 

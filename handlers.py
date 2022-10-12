@@ -39,17 +39,16 @@ async def help_command(message: types.Message):
                         parse_mode='HTML')
 
 
-@dp.message_handler(commands=['add'])
+@dp.message_handler(commands=('add'))
 async def add_command(message: types.Message):
-    await message.answer('Введи буквенно-цифровой артикул латинскими буквами')
-    # await bot.send_message("Введи буквенно-цифровой артикул латинскими буквами")
-
+    # user_text = message.text
+    await bot.send_message(message.chat.id, 'Введи буквенно-цифровой артикул латинскими буквами')
     await add_det(detail_size=message.text, user_id=message.from_user.id, username=message.from_user.username)
-    # message.text.lower == ()
-    await bot.send_message(message.chat.id, message.text)
+    # await bot.send_message("Введи буквенно-цифровой артикул латинскими буквами")
+    # await bot.send_message(message.chat.id, message.text)
 
-    await message.answer('Запись добавлена в базу данных!')
-    await message.delete()
+    await bot.send_message(message.from_user.id, text='Запись добавлена в базу данных!')
+    # await message.delete()
 
 
 @dp.message_handler(commands=['search'])
