@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 
 from Keyboards import get_kb
 from main import dp
-from sql import db_start, add_item
+from sql import db_start, add_item, add_profile
 
 storage = MemoryStorage()
 
@@ -38,8 +38,7 @@ async def start_command(message: types.Message):
     await message.answer(
         f'Привет, <b>{message.from_user.first_name}</b>! Добро пожаловать в бот по поиску остатков\nДля помощи нажми > /help',
         reply_markup=get_kb(), parse_mode='HTML')
-    # await add_profile(user_id=message.from_user.id,
-    #                   username=message.from_user.username)
+    await add_profile(user_id=message.from_user.id)
 
 
 @dp.message_handler(commands=['description'])
@@ -61,7 +60,7 @@ async def add_command(message: types.Message):
 
 
 @dp.message_handler(state=ItemState.item_brand)
-async def load_item(message: types.Message, state: FSMContext):
+async def load_item_brand(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['item_brand'] = message.text
     await state.update_data(item_brand=message.text)
@@ -88,7 +87,7 @@ async def load_item_name(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(state=ItemState.item_length)
-async def load_item_name(message: types.Message, state: FSMContext):
+async def load_item_length(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['item_length'] = message.text
     await state.update_data(item_length=message.text)
@@ -97,11 +96,11 @@ async def load_item_name(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(state=ItemState.item_width)
-async def load_item_size(message: types.Message, state: FSMContext):
+async def load_item_width(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['item_width'] = message.text
     await state.update_data(item_width=message.text)
-    await add_item(state, user_id=message.from_user.id, username=message.from_user.username)
+    await add_item(state, user_id=message.from_user.id)
     await message.reply('Запись успешно добавлена в базу!')
     await message.answer(f"производитель: {data['item_brand']}\n"
                          f"артикул: {data['item']}\n"
