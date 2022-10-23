@@ -33,7 +33,7 @@ async def on_startup(_):
 @dp.message_handler(commands=['start'])
 async def start_command(message: types.Message):
     await message.answer(
-        f'Привет, <b>{message.from_user.first_name}</b>! Добро пожаловать в бот по поиску остатков\nДля помощи нажми > /help',
+        f'Привет, <b>{message.from_user.first_name}</b>! Добро пожаловать в бот по поиску остатков\nДля помощи нажми > /Материалы',
         reply_markup=get_start_kb(), parse_mode='HTML')
 
 
@@ -162,9 +162,10 @@ async def load_item_width(message: types.Message, state: FSMContext) -> None:
 
 # Удаление элемента из базы данных
 
-# @dp.callback_query_handler(positions_cb.filter(action='delete'))
-# async def cb_delete_position(callback: types.CallbackQuery, callback_data: dict):
-#     await sql.delete_position(callback_data['id'])
-#
-#     await callback.message.reply('Ваш материал удален!')
-#     await callback.answer()
+
+@dp.callback_query_handler(positions_cb.filter(action='delete'))
+async def cb_delete_position(callback: types.CallbackQuery, callback_data: dict):
+    await sql.delete_position(callback_data['id'])
+
+    await callback.message.reply('Ваш материал удален!')
+    await callback.answer()

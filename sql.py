@@ -49,3 +49,8 @@ async def add_item(state, username=None):
 async def delete_position(p_id: int) -> None:
     cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
     db.commit()
+
+
+async def delete_position(p_id: int) -> None:
+    cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
+    db.commit()

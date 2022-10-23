@@ -13,6 +13,7 @@ def get_positions_ikb() -> InlineKeyboardMarkup:
 
     return ikb
 
+
 def get_edit_position(id: int) -> InlineKeyboardMarkup:
     ikb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton('Редактировать материал', callback_data=positions_cb.new(id, 'edit'))],
