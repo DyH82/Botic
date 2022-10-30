@@ -7,13 +7,9 @@ async def db_start():
     cur = db.cursor()
     if db:
         print('База данных запущена!')
-    # cur.execute(
-    #     """CREATE TABLE IF NOT EXISTS user_data(user_id INT, brand TEXT,
-    #     article TEXT, title TEXT, length INT, width INT, username TEXT)""")
     cur.execute(
         """CREATE TABLE IF NOT EXISTS user_data(id INTEGER PRIMARY KEY, brand TEXT, 
         article TEXT, title TEXT, length INT, width INT, username TEXT)""")
-
     db.commit()
 
 
@@ -24,33 +20,33 @@ async def get_all_positions():
 
 
 async def get_position():
-
-    position = cur.execute("SELECT article FROM user_data WHERE article LIKE '%?%'").fetchall()
-
+    global db, cur
+    db = sqlite3.connect('materials.db')
+    position = input('введите артикул: ')
+    position = cur.execute("SELECT article, username FROM user_data WHERE article LIKE ?",
+                           ('%' + str(position) + '%',)).fetchall()
+    # for i in position:
+    # print('sql: ', i)
+    # print('sql: ', position)
+    db.close()
     return position
 
 
 async def add_item(state, username=None):
     async with state.proxy() as data:
-        # position = cur.execute(
-        #     "INSERT INTO user_data (user_id, brand, article, title, length, width, username) VALUES(?,?,?,?,?,?,?)",
-        #     (user_id, data['item_brand'], data['item'], data['item_name'], data['item_length'], data['item_width'],
-        #      username))
         position = cur.execute(
-                    "INSERT INTO user_data (brand, article, title, length, width, username) VALUES(?,?,?,?,?,?)",
-                    (data['item_brand'], data['item'], data['item_name'], data['item_length'], data['item_width'],
-                     username))
+            "INSERT INTO user_data (brand, article, title, length, width, username) VALUES(?,?,?,?,?,?)",
+            (data['item_brand'], data['item'], data['item_name'], data['item_length'], data['item_width'],
+             username))
 
         db.commit()
 
     return position
 
-
-async def delete_position(p_id: int) -> None:
-    cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
-    db.commit()
-
-
-async def delete_position(p_id: int) -> None:
-    cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
-    db.commit()
+# async def delete_position(p_id: int) -> None:
+#     cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
+#     db.commit()
+#
+# async def delete_position(p_id: int) -> None:
+#     cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
+#     db.commit()
