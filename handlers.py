@@ -34,7 +34,7 @@ async def on_startup(_):
 @dp.message_handler(commands=['start'])
 async def start_command(message: types.Message):
     await message.answer(
-        f'Привет, <b>{message.from_user.first_name}</b>! Добро пожаловать в бот по поиску остатков\nДля помощи нажми > /Материалы',
+        f'Привет, <b>{message.from_user.first_name}</b>! Добро пожаловать в бот по поиску остатков\nДля помощи нажми > /Меню',
         reply_markup=get_start_kb(), parse_mode='HTML')
 
 
@@ -44,11 +44,13 @@ async def cancel_command(message: types.Message, state: FSMContext):
         return
 
     await state.finish()
-    await message.answer('Вы отменили действие!',
-                         reply_markup=get_start_kb())
+    await message.answer('Вы отменили действие!'
+                         )
+    await message.answer('Выберите действие!',
+                         reply_markup=get_positions_ikb())
 
 
-@dp.message_handler(commands=['Материалы'])
+@dp.message_handler(commands=['Меню'])
 async def pos_command(message: types.Message):
     await message.answer('Просмотр/добавление материала',
                          reply_markup=get_positions_ikb())
@@ -65,8 +67,8 @@ async def show_all_positions(callback: types.CallbackQuery, positions: list) -> 
                                       f"артикул: {position[2]}\n"
                                       f"Название: {position[3]}\n"
                                       f"Размер детали: {str(position[4]) + '*' + str(position[5])}\n"
-                                      f"Спроси у: {'@' + position[6]}",
-                                      reply_markup=get_edit_position())
+                                      f"Спроси у: {'@' + position[6]}"
+                                      )
 
 
 @dp.callback_query_handler(text='get_all_positions')
@@ -86,8 +88,9 @@ async def cb_get_all_positions(callback: types.CallbackQuery):
 # включаем состояние для поиска
 @dp.callback_query_handler(text='get_position_')
 async def cb_get_position(callback: types.CallbackQuery) -> None:
-    await callback.message.answer('Введите артикул материала для поиска:',
-                                  reply_markup=get_cancel_kb())
+    await callback.message.answer('Введите артикул материала для поиска\nили нажмите -> /cancel',
+                                  reply_markup=get_cancel_kb(),
+                                  )
     await ItemState.search.set()
     await callback.message.delete()
     await callback.answer()
@@ -98,15 +101,18 @@ async def srch_item(message: types.Message, state: FSMContext) -> None:
     position = await get_position(message.text)
     if position:
         for pos in position:
-            s = ' '.join(pos)
+            s = ' '.join(str(pos))
             await message.reply('получите распишитесь! \n'
-                                f'{pos[0]}' + ' размером: \n' + 'обратись к ' + '@' +
-                                f'{pos[1]}'
+                                f'{pos[0]}'
+                                f' размером: {str(pos[1])}*{str(pos[2])}\n'
+                                f'обратись к @{pos[3]}'
                                 )
             await state.finish()
-        print(s)
+        await message.answer('Выберите действие!', reply_markup=get_positions_ikb())
+        # print(pos)
     else:
-        await message.reply("Нету такого материала")
+        await message.reply("Нету такого материала",
+                            reply_markup=get_positions_ikb())
         await state.finish()
 
 
@@ -135,7 +141,7 @@ async def help_command(message: types.Message):
 
 @dp.callback_query_handler(text='add_new_position')
 async def cb_add_new_position(callback: types.CallbackQuery) -> None:
-    await callback.message.answer('Введи производителя(Бренд):',
+    await callback.message.answer('Введите производителя(Бренд)\nили нажмите -> /cancel',
                                   reply_markup=get_cancel_kb())
     await callback.message.delete()
     await ItemState.item_brand.set()
@@ -146,7 +152,7 @@ async def load_item_brand(message: types.Message, state: FSMContext) -> None:
     async with state.proxy() as data:
         data['item_brand'] = message.text
     await state.update_data(item_brand=message.text.capitalize())
-    await message.reply('Введи буквенно-цифровой артикул латинскими буквами:')
+    await message.reply('Введите буквенно-цифровой артикул латинскими буквами\nили нажмите -> /cancel')
     await ItemState.next()
 
 
@@ -155,7 +161,7 @@ async def load_item(message: types.Message, state: FSMContext) -> None:
     async with state.proxy() as data:
         data['item'] = message.text
     await state.update_data(item=message.text.capitalize())
-    await message.reply('Введи название материала:')
+    await message.reply('Введите название материала\nили нажмите -> /cancel')
     await ItemState.next()
 
 
@@ -164,7 +170,7 @@ async def load_item_name(message: types.Message, state: FSMContext) -> None:
     async with state.proxy() as data:
         data['item_name'] = message.text
     await state.update_data(item_name=message.text.capitalize())
-    await message.reply('Введи длину детали в "мм":')
+    await message.reply('Введите длину детали в "мм"\nили нажмите -> /cancel')
     await ItemState.next()
 
 
@@ -173,7 +179,7 @@ async def load_item_length(message: types.Message, state: FSMContext) -> None:
     async with state.proxy() as data:
         data['item_length'] = message.text
     await state.update_data(item_length=message.text)
-    await message.reply('Введи ширину детали в "мм":')
+    await message.reply('Введите ширину детали в "мм" \nили нажмите -> /cancel')
     await ItemState.next()
 
 

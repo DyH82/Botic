@@ -21,7 +21,7 @@ async def get_all_positions():
 
 async def get_position(position=None):
     db = sqlite3.connect('materials.db')
-    position = cur.execute("SELECT article, username FROM user_data WHERE article LIKE ?",
+    position = cur.execute("SELECT article, length, width, username FROM user_data WHERE article LIKE ?",
                            ('%' + str(position) + '%',)).fetchall()
 
     db.close()
