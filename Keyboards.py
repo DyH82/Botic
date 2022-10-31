@@ -21,6 +21,7 @@ def add_position_ikb() -> InlineKeyboardMarkup:
 
     return ikb
 
+# ################# для админа
 
 # def get_edit_position(id: int) -> InlineKeyboardMarkup:
 #     ikb = InlineKeyboardMarkup(inline_keyboard=[

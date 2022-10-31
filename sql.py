@@ -19,15 +19,11 @@ async def get_all_positions():
     return positions
 
 
-async def get_position():
-    global db, cur
+async def get_position(position=None):
     db = sqlite3.connect('materials.db')
-    position = input('введите артикул: ')
     position = cur.execute("SELECT article, username FROM user_data WHERE article LIKE ?",
                            ('%' + str(position) + '%',)).fetchall()
-    # for i in position:
-    # print('sql: ', i)
-    # print('sql: ', position)
+
     db.close()
     return position
 
@@ -43,6 +39,7 @@ async def add_item(state, username=None):
 
     return position
 
+# ##################### удаление/редактирование (админ)
 # async def delete_position(p_id: int) -> None:
 #     cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
 #     db.commit()
