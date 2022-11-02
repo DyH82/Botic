@@ -103,13 +103,14 @@ async def srch_item(message: types.Message, state: FSMContext) -> None:
         for pos in position:
             s = ' '.join(str(pos))
             await message.reply('получите распишитесь! \n'
+                                '\n'
                                 f'{pos[0]}'
                                 f' размером: {str(pos[1])}*{str(pos[2])}\n'
                                 f'обратись к @{pos[3]}'
                                 )
-            await state.finish()
         await message.answer('Выберите действие!', reply_markup=get_positions_ikb())
-        # print(pos)
+        await state.finish()
+        print(pos)
     else:
         await message.reply("Нету такого материала",
                             reply_markup=get_positions_ikb())

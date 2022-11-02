@@ -34,7 +34,7 @@ def add_position_ikb() -> InlineKeyboardMarkup:
 
 def get_start_kb() -> ReplyKeyboardMarkup:
     kb = ReplyKeyboardMarkup(keyboard=[
-        [KeyboardButton('/Материалы')]
+        [KeyboardButton('/Меню')]
     ], resize_keyboard=True)
 
     return kb
