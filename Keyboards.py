@@ -1,9 +1,10 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils.callback_data import CallbackData
 
-positions_cb = CallbackData('position', 'id', 'action')
+# positions_cb = CallbackData('position', 'id', 'action')
 
 
+#  ин-лайн клавиатура
 def get_positions_ikb() -> InlineKeyboardMarkup:
     ikb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton('Просмотр всех позиций', callback_data='get_all_positions')],
@@ -14,13 +15,6 @@ def get_positions_ikb() -> InlineKeyboardMarkup:
     return ikb
 
 
-def add_position_ikb() -> InlineKeyboardMarkup:
-    ikb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton('Добавить материал', callback_data='add_new_position')]
-    ])
-
-    return ikb
-
 # ################# для админа
 
 # def get_edit_position(id: int) -> InlineKeyboardMarkup:
@@ -30,8 +24,9 @@ def add_position_ikb() -> InlineKeyboardMarkup:
 #     ])
 #
 #     return ikb
+####################
 
-
+# обычная кнопка
 def get_start_kb() -> ReplyKeyboardMarkup:
     kb = ReplyKeyboardMarkup(keyboard=[
         [KeyboardButton('/Меню')]
@@ -40,6 +35,7 @@ def get_start_kb() -> ReplyKeyboardMarkup:
     return kb
 
 
+# отмена
 def get_cancel_kb() -> ReplyKeyboardMarkup:
     kb = ReplyKeyboardMarkup(keyboard=[
         [KeyboardButton('/cancel')]
