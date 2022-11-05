@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils.callback_data import CallbackData
 
-# positions_cb = CallbackData('position', 'id', 'action')
+positions_cb = CallbackData('position', 'id', 'action')
 
 
 #  ин-лайн клавиатура
