@@ -1,5 +1,6 @@
 import sqlite3
 
+
 # инициализируем создание базы данных, если она не создана
 async def db_start():
     global db, cur
@@ -12,11 +13,13 @@ async def db_start():
         article TEXT, title TEXT, length INT, width INT, username TEXT)""")
     db.commit()
 
+
 # выводим все значения из таблицы
 async def get_all_positions():
     positions = cur.execute("SELECT * FROM user_data").fetchall()
 
     return positions
+
 
 #  выводим некоторые значения, если результат пользователя совпадает с результатом БД
 async def get_position(position=None):
@@ -26,6 +29,7 @@ async def get_position(position=None):
 
     db.close()
     return position
+
 
 # добавляем данные в таблицу
 async def add_item(state, username=None):
@@ -40,10 +44,10 @@ async def add_item(state, username=None):
     return position
 
 # ##################### удаление/редактирование (админ)
-# async def delete_position(p_id: int) -> None:
-#     cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
-#     db.commit()
-#
-# async def delete_position(p_id: int) -> None:
-#     cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
-#     db.commit()
+async def delete_position(p_id: int) -> None:
+    cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
+    db.commit()
+
+async def delete_position(p_id: int) -> None:
+    cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
+    db.commit()

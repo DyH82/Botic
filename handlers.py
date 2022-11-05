@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 
 from Keyboards import *
 from main import dp
-from sql import db_start, get_all_positions, add_item, get_position
+from sql import *
 
 storage = MemoryStorage()
 
@@ -118,18 +118,18 @@ async def srch_item(message: types.Message, state: FSMContext) -> None:
 
 
 ################# это будет допиливаться
-# @dp.callback_query_handler(positions_cb.filter(action='delete'))
-# async def cb_delete_position(callback: types.CallbackQuery, callback_data: dict):
-#     await delete_position(callback_data['id'])
-#
-#     await callback.message.reply('Ваш материал удален!')
-#     await callback.answer()
+@dp.callback_query_handler(positions_cb.filter(action='delete'))
+async def cb_delete_position(callback: types.CallbackQuery, callback_data: dict):
+    await delete_position(callback_data['id'])
+
+    await callback.message.reply('Ваш материал удален!')
+    await callback.answer()
 
 
-# @dp.message_handler(commands=['description'])
-# async def desc_command(message: types.Message):
-#     await message.answer('описание бота')
-#     await message.delete()
+@dp.message_handler(commands=['description'])
+async def desc_command(message: types.Message):
+    await message.answer('описание бота')
+    await message.delete()
 
 #################
 
@@ -212,12 +212,12 @@ async def load_item_width(message: types.Message, state: FSMContext) -> None:
 
 ####################### Удаление/редактирование элемента(admin)
 
-# @dp.callback_query_handler(positions_cb.filter(action='delete'))
-# async def cb_delete_position(callback: types.CallbackQuery, callback_data: dict):
-#     await sql.delete_position(callback_data['id'])
-#
-#     await callback.message.reply('материал удален!')
-#     await callback.answer()
+@dp.callback_query_handler(positions_cb.filter(action='delete'))
+async def cb_delete_position(callback: types.CallbackQuery, callback_data: dict):
+    await sql.delete_position(callback_data['id'])
+
+    await callback.message.reply('материал удален!')
+    await callback.answer()
 
 # @dp.callback_query_handler(positions_cb.filter(action='edit'))
 # async def cb_edit_position(callback: types.CallbackQuery, callback_data: dict):
