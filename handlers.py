@@ -69,6 +69,7 @@ async def show_all_positions(callback: types.CallbackQuery, positions: list) -> 
                                       f"Размер детали: {str(position[4])}*{str(position[5])}\n"
                                       f"Спроси у: @{position[6]}"
                                       )
+    await callback.message.answer('Выберите действие', reply_markup=get_positions_ikb())
 
 # обработчик кнопки "Просмотр всех позиций"
 @dp.callback_query_handler(text='get_all_positions')
