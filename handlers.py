@@ -67,8 +67,8 @@ async def show_all_positions(callback: types.CallbackQuery, positions: list) -> 
                                       f"артикул: {position[2]}\n"
                                       f"Название: {position[3]}\n"
                                       f"Размер детали: {str(position[4])}*{str(position[5])}\n"
-                                      f"Спроси у: @{position[6]}",
-                                      reply_markup=get_edit_position)
+                                      f"Спроси у: @{position[6]}"
+                                      )
     await callback.message.answer('Выберите действие', reply_markup=get_positions_ikb())
 
 # обработчик кнопки "Просмотр всех позиций"
