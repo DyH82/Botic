@@ -43,11 +43,12 @@ async def add_item(state, username=None):
 
     return position
 
-# ##################### удаление/редактирование (админ)
+
+# удаление/редактирование (админ)
 async def delete_position(p_id: int) -> None:
     cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
     db.commit()
 
-async def delete_position(p_id: int) -> None:
-    cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
-    db.commit()
+# async def edit_position(p_id: int) -> None:
+#     cur.execute("DELETE FROM user_data WHERE id =?", (p_id,))
+#     db.commit()

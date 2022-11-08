@@ -15,16 +15,16 @@ def get_positions_ikb() -> InlineKeyboardMarkup:
     return ikb
 
 
-# ################# для админа
+# для админа
 
-def get_edit_position(id: int) -> InlineKeyboardMarkup:
+def get_edit_position(p_id: int) -> InlineKeyboardMarkup:
     ikb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton('Редактировать материал', callback_data=positions_cb.new(id, 'edit'))],
-        [InlineKeyboardButton('Удалить материал', callback_data=positions_cb.new(id, 'delete'))]
+        [InlineKeyboardButton('Редактировать материал', callback_data=positions_cb.new(p_id, 'edit'))],
+        [InlineKeyboardButton('Удалить материал', callback_data=positions_cb.new(p_id, 'delete'))]
     ])
 
     return ikb
-####################
+
 
 # обычная кнопка
 def get_start_kb() -> ReplyKeyboardMarkup:
